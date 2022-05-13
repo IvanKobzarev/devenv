@@ -19,7 +19,7 @@ Plugin 'jremmen/vim-ripgrep'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'jeetsukumaran/vim-buffergator'
-
+Plugin 'dense-analysis/ale'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -112,10 +112,6 @@ set foldlevel=20
 nnoremap <space> za
 vnoremap <space> zf
 
-let g:ale_linters_explicit = 1
-let g:ale_linters = {'python': ['flake8']}
-let g:ale_python_flake8_executable = 'flake8-3'
-
 noremap <F5> :set list!<CR>
 inoremap <F5> <C-o>:set list!<CR>
 cnoremap <F5> <C-c>:set list!<CR>
@@ -140,3 +136,64 @@ let g:buffergator_viewport_split_policy = "R"
 
 autocmd BufRead,BufNewFile TARGETS set filetype=python
 autocmd BufRead,BufNewFile BUCK set filetype=python
+
+
+
+" ALE
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:ale_linters = {}
+
+" CPP
+let g:ale_fixers.cpp = ['clang-format']
+let g:ale_c_clangformat_executable = $CLANGFORMAT_EXE
+" This requires additional setup, see
+" https://www.internalfb.com/intern/wiki/Users/hariharanb/vim_Setup/ALE/#setting-up-lsp
+" let g:ale_linters.cpp = ['cppls_fbcode']
+
+" Python
+let g:ale_fixers.python = ['black']
+let g:ale_linters.python = ['flake8']
+let g:ale_python_flake8_executable = 'flake8-3'
+
+" Shell
+" Static analysis
+let g:ale_linters.sh = ['shellcheck']
+let g:ale_sh_shellcheck_executable = $SHELLCHECK_EXE
+
+""" Disable ALE on BUCK / .bzl as they are taken care of separately
+let g:ale_pattern_options = {
+      \ 'TARGETS': {'ale_enabled': 0,
+      \             'ale_fixers': {}
+      \            },
+      \ 'BUCK': { 'ale_enabled': 0,
+      \           'ale_fixers': {}
+      \         },
+      \ '\.bzl$': { 'ale_enabled': 0,
+      \             'ale_fixers': {}
+      \         }
+      \ }
+
+" Only running linters you asked for.
+let g:ale_linters_explicit = 1
+" Enable completion where available.
+" " This setting must be set before ALE is loaded.
+" "
+" " You should not turn this setting on if you wish to use ALE as a completion
+" " source for other completion plugins, like Deoplete.
+let g:ale_completion_enabled = 1
+" an omni-completion function you can use for triggering completion manually
+" with <C-x><C-o>.
+set omnifunc=ale#completion#OmniFunc
+
+let g:airline#extensions#ale#enabled = 1
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 1
+let g:ale_list_window_size = 5
+
+
