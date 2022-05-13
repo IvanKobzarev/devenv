@@ -11,7 +11,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 
-Plugin 'nerdtree'
+Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'burntsushi/ripgrep'
@@ -19,7 +19,6 @@ Plugin 'jremmen/vim-ripgrep'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'rhysd/vim-llvm'
 
 
 " All of your Plugins must be added before the following line
