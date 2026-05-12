@@ -1,3 +1,24 @@
+[user]
+  name = IvanKobzarev
+  email = ivan.kobzarev@gmail.com
+[credential]
+  helper = store
 [alias]
   st = status
+  br = branch -v --sort=-committerdate
+  lo = log --oneline
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[url "https://github.com/"]
+  insteadOf = git://github.com/
+[checkout]
+  workers = -1
+[pull]
+  ff = only
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+[safe]
+  directory = *
